@@ -245,4 +245,13 @@ public class PersonDaoImpl implements PersonDao {
             }
         }
     }
+
+    public Person copyPerson(Person person){
+        Person newPerson = new Person();
+        newPerson.setId(person.getId());
+        newPerson.setUsername(person.getUsername());
+        newPerson.setPassword(person.getPassword());
+        newPerson.setRole(person.getRole());
+        return newPerson;
+    }
 }

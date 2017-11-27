@@ -9,4 +9,5 @@ public interface PersonDao {
     List<Person> selectAll();
     void delete(int id);
     void update(Person person, int id);
+    Person copyPerson(Person person);
 }

@@ -3,6 +3,7 @@ import daoimpl.TodoDaoImpl;
 import entities.Person;
 import entities.Todo;
 import util.ConConfig;
+import util.Verify;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,24 +12,36 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String [] args) {
-        boolean logged = false;
-
         PersonDaoImpl pdi = new PersonDaoImpl();
         TodoDaoImpl tdi = new TodoDaoImpl();
         pdi.createPersonTable(); // will create a table 'person' if it doesn't exist
         tdi.createTodoTable();
+        Verify verify = new Verify();
 
-        System.out.println("Login screen");
+        boolean logged = false;
+        Person user = new Person();
 
-        Scanner reader = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String usr = reader.next();
-        System.out.println("Enter password: ");
-        String pswd = reader.next();
+        while (!logged) {
+            // Look for username, if found check password, if matching set logged to true
+            System.out.println("__________________");
+            System.out.println("Login screen");
+            Scanner reader = new Scanner(System.in);
+            System.out.println("Enter username: ");
+            String usr = reader.next();
+            System.out.println("Enter password: ");
+            String pwd = reader.next();
+            System.out.println("Verifying...");
 
-        System.out.println("Verifying...");
-
-        // Look for username, if found check password, if matching set boolean
+            user = pdi.copyPerson(verify.CheckUser(usr, pwd));
+            if (user.getId() == 0) {
+                System.out.println("No such combination of user and password has been found.");
+                System.out.println("Please try again.");
+            }
+            else{
+                System.out.println("Hello " + user.getUsername() + ", welcome!");
+                logged = true;
+            }
+        }
 
 
 
